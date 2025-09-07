@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from '@/components/ui/sonner'
+import { ConnectionWrapper } from '@/components/common/connection-status'
 
 // Layout
 import Layout from '@/components/layout/layout'
@@ -33,8 +34,9 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
+      <ConnectionWrapper>
+        <BrowserRouter>
+          <Routes>
           {/* Fullscreen route with layout but no container */}
           <Route path="/404" element={
             <Layout fullscreen>
@@ -100,9 +102,10 @@ function App() {
           
           {/* Catch all - redirect to 404 */}
           <Route path="*" element={<Navigate to="/404" replace />} />
-        </Routes>
-        <Toaster />
-      </BrowserRouter>
+          </Routes>
+          <Toaster />
+        </BrowserRouter>
+      </ConnectionWrapper>
     </QueryClientProvider>
   )
 }

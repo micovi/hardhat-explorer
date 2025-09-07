@@ -159,7 +159,7 @@ export function OnlineDemoBanner() {
         </div>
 
         {/* Bottom section with alternative */}
-        <div className="mt-16 text-center">
+        <div className="mt-16 text-center flex flex-col items-center">
           <div className="inline-flex items-center gap-2 text-sm text-gray-500 mb-4">
             <div className="w-16 h-px bg-gray-200"></div>
             <span>or install locally</span>

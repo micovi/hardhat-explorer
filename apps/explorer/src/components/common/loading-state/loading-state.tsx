@@ -86,13 +86,19 @@ export function LoadingState({
 
   if (variant === 'list') {
     return (
-      <div className={cn("space-y-3", className)}>
+      <div className={cn("", className)}>
         {Array.from({ length: count }).map((_, index) => (
-          <div key={index} className="flex items-center space-x-4">
-            <Skeleton className="h-12 w-12 rounded-full" />
-            <div className="space-y-2 flex-1">
-              <Skeleton className="h-4 w-3/4" />
-              <Skeleton className="h-4 w-1/2" />
+          <div key={index} className="flex items-center justify-between p-3 border-b border-gray-100 last:border-0">
+            <div className="flex items-center space-x-3">
+              <Skeleton className="h-8 w-8 rounded" />
+              <div className="space-y-1">
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-3 w-12" />
+              </div>
+            </div>
+            <div className="text-right space-y-1">
+              <Skeleton className="h-3 w-24 ml-auto" />
+              <Skeleton className="h-3 w-16 ml-auto" />
             </div>
           </div>
         ))}

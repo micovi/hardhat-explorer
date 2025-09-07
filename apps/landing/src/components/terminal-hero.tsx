@@ -1,85 +1,86 @@
-import { useState, useEffect } from 'react'
-import { Copy, Check, ArrowRight, Github, Star } from 'lucide-react'
-import { Button } from './ui/button'
+import { useState, useEffect } from "react";
+import { Copy, Check, ArrowRight, Github } from "lucide-react";
+import { Button } from "./ui/button";
 
 const terminalSteps = [
-  { text: '$ npx evmscan init', delay: 1000 },
-  { text: '✓ Creating .evmscan directory...', delay: 1500 },
-  { text: '✓ Setting up configuration...', delay: 800 },
-  { text: '$ npx evmscan start', delay: 1200 },
-  { text: '🚀 Starting explorer at http://localhost:3000', delay: 1000 },
-  { text: '⚡ Connected to local node at http://localhost:8545', delay: 1000 },
-  { text: '📦 Indexing blocks... 1,234 blocks processed', delay: 800 },
-  { text: '✅ evmscan is ready! Happy developing!', delay: 1000 }
-]
+  { text: "$ npx evmscan init", delay: 1000 },
+  { text: "✓ Creating .evmscan directory...", delay: 1500 },
+  { text: "✓ Setting up configuration...", delay: 800 },
+  { text: "$ npx evmscan start", delay: 1200 },
+  { text: "🚀 Starting explorer at http://localhost:3000", delay: 1000 },
+  { text: "⚡ Connected to local node at http://localhost:8545", delay: 1000 },
+  { text: "✅ evmscan is ready! Happy developing!", delay: 1000 },
+];
 
 export function TerminalHero() {
-  const [currentStep, setCurrentStep] = useState(-1)
-  const [currentText, setCurrentText] = useState('')
-  const [copied, setCopied] = useState(false)
-  const [isTyping, setIsTyping] = useState(false)
+  const [currentStep, setCurrentStep] = useState(-1);
+  const [currentText, setCurrentText] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText('npx evmscan init && npx evmscan start')
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
+    await navigator.clipboard.writeText(
+      "npx evmscan init && npx evmscan start"
+    );
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const resetAnimation = () => {
-    setCurrentStep(-1)
-    setCurrentText('')
-    setIsTyping(false)
-  }
+    setCurrentStep(-1);
+    setCurrentText("");
+    setIsTyping(false);
+  };
 
   useEffect(() => {
     if (currentStep >= terminalSteps.length) {
       // Reset after completion
-      const timeout = setTimeout(resetAnimation, 3000)
-      return () => clearTimeout(timeout)
+      const timeout = setTimeout(resetAnimation, 3000);
+      return () => clearTimeout(timeout);
     }
 
     if (currentStep === -1) {
       // Start animation
-      const timeout = setTimeout(() => setCurrentStep(0), 500)
-      return () => clearTimeout(timeout)
+      const timeout = setTimeout(() => setCurrentStep(0), 500);
+      return () => clearTimeout(timeout);
     }
 
-    const step = terminalSteps[currentStep]
-    setIsTyping(true)
-    
+    const step = terminalSteps[currentStep];
+    setIsTyping(true);
+
     // Type out the text
-    let charIndex = 0
+    let charIndex = 0;
     const typeInterval = setInterval(() => {
       if (charIndex <= step.text.length) {
-        setCurrentText(step.text.slice(0, charIndex))
-        charIndex++
+        setCurrentText(step.text.slice(0, charIndex));
+        charIndex++;
       } else {
-        clearInterval(typeInterval)
-        setIsTyping(false)
+        clearInterval(typeInterval);
+        setIsTyping(false);
         // Move to next step after delay
         setTimeout(() => {
-          setCurrentStep(prev => prev + 1)
-        }, step.delay)
+          setCurrentStep((prev) => prev + 1);
+        }, step.delay);
       }
-    }, 50)
+    }, 50);
 
-    return () => clearInterval(typeInterval)
-  }, [currentStep])
+    return () => clearInterval(typeInterval);
+  }, [currentStep]);
 
   // Generate floating shapes
   const shapes = Array.from({ length: 15 }, (_, i) => ({
     id: i,
-    type: ['cube', 'circle', 'diamond'][Math.floor(Math.random() * 3)],
+    type: ["cube", "circle", "diamond"][Math.floor(Math.random() * 3)],
     left: Math.random() * 100,
     animationDelay: Math.random() * 20,
-    duration: 15 + Math.random() * 10
-  }))
+    duration: 15 + Math.random() * 10,
+  }));
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Grid background */}
       <div className="grid-background"></div>
-      
+
       {/* Floating shapes */}
       <div className="floating-shapes">
         {shapes.map((shape) => (
@@ -89,7 +90,7 @@ export function TerminalHero() {
             style={{
               left: `${shape.left}%`,
               animationDelay: `${shape.animationDelay}s`,
-              animationDuration: `${shape.duration}s`
+              animationDuration: `${shape.duration}s`,
             }}
           />
         ))}
@@ -104,14 +105,14 @@ export function TerminalHero() {
               <div className="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center">
                 <div className="w-3 h-3 border border-white rounded-sm"></div>
               </div>
-              <span className="text-2xl font-bold">evmscan</span>
+              <span className="text-2xl font-bold">evmscan.org</span>
             </div>
           </div>
 
           {/* Main headline */}
           <div className="fade-in-up delay-100">
             <h1 className="text-6xl lg:text-7xl font-bold leading-tight mb-6">
-              Etherscan for your{' '}
+              Etherscan for your{" "}
               <span className="text-gray-500 relative">
                 local node
                 <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-gray-900 to-gray-400"></div>
@@ -122,41 +123,31 @@ export function TerminalHero() {
           {/* Subtitle */}
           <div className="fade-in-up delay-200">
             <p className="text-xl text-gray-600 leading-relaxed max-w-lg">
-              Zero-config blockchain explorer that works with any EVM network. 
+              Zero-config blockchain explorer that works with any EVM network.
               Perfect for local development with Hardhat, Anvil, or Ganache.
             </p>
           </div>
 
           {/* CTA Buttons */}
           <div className="fade-in-up delay-300 flex flex-col sm:flex-row gap-4">
-            <Button size="lg" className="px-8 py-4 text-lg group hover-lift relative overflow-hidden">
+            <Button
+              size="lg"
+              className="px-8 py-4 text-lg group hover-lift relative overflow-hidden"
+            >
               <span className="relative z-10 flex items-center">
                 Get Started
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </span>
               <div className="absolute inset-0 shimmer opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </Button>
-            <Button variant="outline" size="lg" className="px-8 py-4 text-lg group hover-lift hover:bg-gray-900 hover:text-white transition-all duration-300">
+            <Button
+              variant="outline"
+              size="lg"
+              className="px-8 py-4 text-lg group hover-lift hover:bg-gray-900 hover:text-white transition-all duration-300"
+            >
               <Github className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
               View on GitHub
-              <Star className="ml-2 h-4 w-4 group-hover:scale-125 group-hover:text-yellow-400 transition-all" />
             </Button>
-          </div>
-
-          {/* Quick stats */}
-          <div className="fade-in-up delay-400 grid grid-cols-3 gap-6 pt-8 border-t border-gray-100">
-            <div className="text-center group cursor-default">
-              <div className="text-2xl font-bold text-gray-900 group-hover:scale-110 transition-transform">2min</div>
-              <div className="text-sm text-gray-500 group-hover:text-gray-700 transition-colors">Setup Time</div>
-            </div>
-            <div className="text-center group cursor-default">
-              <div className="text-2xl font-bold text-gray-900 group-hover:scale-110 transition-transform">100%</div>
-              <div className="text-sm text-gray-500 group-hover:text-gray-700 transition-colors">Open Source</div>
-            </div>
-            <div className="text-center group cursor-default">
-              <div className="text-2xl font-bold text-gray-900 group-hover:scale-110 transition-transform">0</div>
-              <div className="text-sm text-gray-500 group-hover:text-gray-700 transition-colors">External APIs</div>
-            </div>
           </div>
         </div>
 
@@ -168,17 +159,23 @@ export function TerminalHero() {
               <div className="terminal-dot bg-red-500 hover:bg-red-400 transition-colors cursor-pointer"></div>
               <div className="terminal-dot bg-yellow-500 hover:bg-yellow-400 transition-colors cursor-pointer"></div>
               <div className="terminal-dot bg-green-500 hover:bg-green-400 transition-colors cursor-pointer breathe"></div>
-              <span className="text-gray-400 text-sm ml-4 group-hover/terminal:text-gray-300 transition-colors">evmscan-setup</span>
+              <span className="text-gray-400 text-sm ml-4 group-hover/terminal:text-gray-300 transition-colors">
+                evmscan-setup
+              </span>
               <div className="ml-auto">
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={handleCopy}
                   className={`h-6 px-2 text-gray-400 hover:text-white transition-all duration-200 ${
-                    copied ? 'text-green-400 scale-110' : ''
+                    copied ? "text-green-400 scale-110" : ""
                   }`}
                 >
-                  {copied ? <Check className="h-3 w-3 animate-pulse" /> : <Copy className="h-3 w-3" />}
+                  {copied ? (
+                    <Check className="h-3 w-3 animate-pulse" />
+                  ) : (
+                    <Copy className="h-3 w-3" />
+                  )}
                 </Button>
               </div>
             </div>
@@ -191,7 +188,7 @@ export function TerminalHero() {
                   <span className="terminal-prompt">~/dev $</span> {step.text}
                 </div>
               ))}
-              
+
               {/* Current typing step */}
               {currentStep >= 0 && currentStep < terminalSteps.length && (
                 <div className="mb-2">
@@ -217,7 +214,15 @@ export function TerminalHero() {
           {/* Install instruction */}
           <div className="mt-4 text-center">
             <p className="text-sm text-gray-500 hover:text-gray-700 transition-colors cursor-default">
-              Copy and paste to get started instantly
+              Check out demo directly at{" "}
+              <a
+                href="https://local.evmscan.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-300 underline"
+              >
+                local.evmscan.org
+              </a>
             </p>
             <div className="mt-2 flex justify-center">
               <div className="w-12 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent breathe"></div>
@@ -226,5 +231,5 @@ export function TerminalHero() {
         </div>
       </div>
     </section>
-  )
+  );
 }
