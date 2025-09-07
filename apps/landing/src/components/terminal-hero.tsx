@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Copy, Check, ArrowRight, Github } from "lucide-react";
+import { Copy, Check, ArrowRight, Github, Blocks } from "lucide-react";
 import { Button } from "./ui/button";
 
 const terminalSteps = [
@@ -103,7 +103,7 @@ export function TerminalHero() {
           <div className="fade-in-up">
             <div className="inline-flex items-center gap-3 mb-6">
               <div className="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center">
-                <div className="w-3 h-3 border border-white rounded-sm"></div>
+                <Blocks className="h-4 w-4 text-white" />
               </div>
               <span className="text-2xl font-bold">evmscan.org</span>
             </div>

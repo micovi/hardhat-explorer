@@ -13,14 +13,6 @@ export default function HomePage() {
 
   return (
     <div className="space-y-6">
-      {/* Page Title */}
-      <div>
-        <h1 className="text-3xl font-bold">evmscan.org</h1>
-        <p className="text-gray-500 mt-2">
-          Monitor your local EVM blockchain in real-time
-        </p>
-      </div>
-
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatsCard
