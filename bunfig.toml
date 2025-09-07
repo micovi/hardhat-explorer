@@ -1,0 +1,23 @@
+# Bun configuration for evmscan monorepo
+
+[install]
+# Use the same lockfile format
+lockfile = { save = true }
+
+# Package manager settings
+[install.cache]
+dir = ".bun"
+
+# Build settings
+[build]
+target = "bun"
+minify = false
+
+# Test settings
+[test]
+preload = "./test/setup.ts"
+coverage = true
+
+# Run settings
+[run]
+silent = false
