@@ -1,0 +1,59 @@
+{
+  "name": "evmscan",
+  "version": "1.0.0",
+  "description": "Local EVM blockchain explorer - instant setup, zero configuration",
+  "bin": {
+    "evmscan": "./bin/evmscan.js"
+  },
+  "main": "./src/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "prepare": "npm run build",
+    "test": "node src/cli.js --help"
+  },
+  "files": [
+    "bin",
+    "src",
+    "dist",
+    "templates"
+  ],
+  "keywords": [
+    "ethereum",
+    "blockchain",
+    "explorer",
+    "hardhat",
+    "anvil",
+    "foundry",
+    "evm",
+    "web3",
+    "development"
+  ],
+  "author": "evmscan.org",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/evmscan/explorer"
+  },
+  "homepage": "https://evmscan.org",
+  "bugs": {
+    "url": "https://github.com/evmscan/explorer/issues"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6",
+    "open": "^10.0.3",
+    "ora": "^8.0.1",
+    "prompts": "^2.4.2",
+    "detect-port": "^1.5.1",
+    "dotenv": "^16.3.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

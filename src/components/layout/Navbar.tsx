@@ -151,7 +151,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <Blocks className="h-6 w-6" />
-            <span className="font-bold text-lg">Hardhat Explorer</span>
+            <span className="font-bold text-lg">evmscan.org</span>
           </Link>
 
           {/* Navigation Menu */}

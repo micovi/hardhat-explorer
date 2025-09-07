@@ -3,22 +3,21 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from '@/components/ui/sonner'
 
 // Layout
-import Layout from '@/components/layout/Layout'
-import FloatingConverter from '@/components/tools/FloatingConverter'
+import Layout from '@/components/layout/layout'
+import FloatingConverter from '@/components/tools/floating-converter'
 
-// Pages (to be implemented)
-import HomePage from '@/pages/HomePage'
-import BlockListPage from '@/pages/BlockListPage'
-import BlockDetailsPage from '@/pages/BlockDetailsPage'
-import TransactionListPage from '@/pages/TransactionListPage'
-import TransactionDetailsPage from '@/pages/TransactionDetailsPage'
-import AddressPage from '@/pages/AddressPage'
-import VerifyContractPage from '@/pages/VerifyContractPage'
-import TokensPage from '@/pages/TokensPage'
-import NFTsPage from '@/pages/NFTsPage'
-import NetworkPage from '@/pages/NetworkPage'
-import NotFoundPage from '@/pages/NotFoundPage'
-import TestTransactionPage from '@/pages/TestTransactionPage'
+// Pages
+import HomePage from '@/pages/home-page'
+import BlockListPage from '@/pages/block-list-page'
+import BlockDetailsPage from '@/pages/block-details-page'
+import TransactionListPage from '@/pages/transaction-list-page'
+import TransactionDetailsPage from '@/pages/transaction-details-page'
+import AddressPage from '@/pages/address-page'
+import VerifyContractPage from '@/pages/verify-contract-page'
+import TokensPage from '@/pages/tokens-page'
+import NetworkPage from '@/pages/network-page'
+import NotFoundPage from '@/pages/not-found-page'
+import TestTransactionPage from '@/pages/test-transaction-page'
 
 // Create a client
 const queryClient = new QueryClient({
@@ -35,22 +34,73 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/blocks" element={<BlockListPage />} />
-            <Route path="/block/:blockNumber" element={<BlockDetailsPage />} />
-            <Route path="/txs" element={<TransactionListPage />} />
-            <Route path="/tx/:hash" element={<TransactionDetailsPage />} />
-            <Route path="/address/:address" element={<AddressPage />} />
-            <Route path="/verify-contract/:address" element={<VerifyContractPage />} />
-            <Route path="/tokens" element={<TokensPage />} />
-            <Route path="/network" element={<NetworkPage />} />
-            <Route path="/404" element={<NotFoundPage />} />
-            <Route path="*" element={<Navigate to="/404" replace />} />
-          </Routes>
-          <FloatingConverter />
-        </Layout>
+        <Routes>
+          {/* Fullscreen route with layout but no container */}
+          <Route path="/404" element={
+            <Layout fullscreen>
+              <NotFoundPage />
+            </Layout>
+          } />
+          
+          {/* Routes with normal layout */}
+          <Route path="/" element={
+            <Layout>
+              <HomePage />
+              <FloatingConverter />
+            </Layout>
+          } />
+          <Route path="/blocks" element={
+            <Layout>
+              <BlockListPage />
+              <FloatingConverter />
+            </Layout>
+          } />
+          <Route path="/block/:blockNumber" element={
+            <Layout>
+              <BlockDetailsPage />
+              <FloatingConverter />
+            </Layout>
+          } />
+          <Route path="/txs" element={
+            <Layout>
+              <TransactionListPage />
+              <FloatingConverter />
+            </Layout>
+          } />
+          <Route path="/tx/:hash" element={
+            <Layout>
+              <TransactionDetailsPage />
+              <FloatingConverter />
+            </Layout>
+          } />
+          <Route path="/address/:address" element={
+            <Layout>
+              <AddressPage />
+              <FloatingConverter />
+            </Layout>
+          } />
+          <Route path="/verify-contract/:address" element={
+            <Layout>
+              <VerifyContractPage />
+              <FloatingConverter />
+            </Layout>
+          } />
+          <Route path="/tokens" element={
+            <Layout>
+              <TokensPage />
+              <FloatingConverter />
+            </Layout>
+          } />
+          <Route path="/network" element={
+            <Layout>
+              <NetworkPage />
+              <FloatingConverter />
+            </Layout>
+          } />
+          
+          {/* Catch all - redirect to 404 */}
+          <Route path="*" element={<Navigate to="/404" replace />} />
+        </Routes>
         <Toaster />
       </BrowserRouter>
     </QueryClientProvider>

@@ -10,11 +10,11 @@ import {
 } from 'viem'
 import { localhost } from 'viem/chains'
 
-// Hardhat local chain configuration
-const hardhatChain: Chain = {
+// Local EVM chain configuration
+const localChain: Chain = {
   ...localhost,
-  id: 31337, // Hardhat default chain ID
-  name: 'Hardhat Local',
+  id: parseInt(import.meta.env.VITE_CHAIN_ID || '31337'),
+  name: import.meta.env.VITE_CHAIN_NAME || 'Local EVM',
   nativeCurrency: {
     decimals: 18,
     name: 'Ether',
@@ -40,7 +40,7 @@ export const getPublicClient = (): PublicClient => {
     const rpcUrl = import.meta.env.VITE_RPC_URL || 'http://localhost:8545'
     
     publicClient = createPublicClient({
-      chain: hardhatChain,
+      chain: localChain,
       transport: http(rpcUrl, {
         batch: true,
         retryCount: 3,
@@ -61,7 +61,7 @@ export const getWebSocketClient = (): PublicClient | null => {
     
     try {
       wsClient = createPublicClient({
-        chain: hardhatChain,
+        chain: localChain,
         transport: webSocket(wsUrl, {
           reconnect: true,
           retryCount: 5,
@@ -76,7 +76,7 @@ export const getWebSocketClient = (): PublicClient | null => {
   return wsClient
 }
 
-// Create wallet client for writing transactions (for Hardhat test accounts)
+// Create wallet client for writing transactions
 export const getWalletClient = async (): Promise<WalletClient | null> => {
   if (typeof window === 'undefined' || !window.ethereum) {
     console.warn('No wallet detected')
@@ -84,22 +84,23 @@ export const getWalletClient = async (): Promise<WalletClient | null> => {
   }
   
   const walletClient = createWalletClient({
-    chain: hardhatChain,
+    chain: localChain,
     transport: custom(window.ethereum),
   })
   
   return walletClient
 }
 
-// Check if connected to Hardhat
+// Check if connected to local EVM node
 export const checkHardhatConnection = async (): Promise<boolean> => {
   const client = getPublicClient()
+  const expectedChainId = parseInt(import.meta.env.VITE_CHAIN_ID || '31337')
   
   try {
     const chainId = await client.getChainId()
-    return chainId === 31337
+    return chainId === expectedChainId
   } catch (error) {
-    console.error('Failed to connect to Hardhat node:', error)
+    console.error('Failed to connect to EVM node:', error)
     return false
   }
 }

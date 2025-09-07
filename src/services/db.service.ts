@@ -135,33 +135,56 @@ class DatabaseService {
   }
 
   async loadABI(address: string): Promise<any[] | null> {
-    const db = await this.getDb()
-    const transaction = db.transaction(STORES.ABIS, 'readonly')
-    const store = transaction.objectStore(STORES.ABIS)
-    const request = store.get(address.toLowerCase())
-
-    return new Promise((resolve, reject) => {
-      request.onsuccess = () => {
-        const result = request.result as ABIData | undefined
-        resolve(result?.abi || null)
+    try {
+      const db = await this.getDb()
+      
+      // Check if the store exists
+      if (!db.objectStoreNames.contains(STORES.ABIS)) {
+        return null
       }
-      request.onerror = () => reject(new Error('Failed to load ABI'))
-    })
+      
+      const transaction = db.transaction(STORES.ABIS, 'readonly')
+      const store = transaction.objectStore(STORES.ABIS)
+      const request = store.get(address.toLowerCase())
+
+      return new Promise((resolve, reject) => {
+        request.onsuccess = () => {
+          const result = request.result as ABIData | undefined
+          resolve(result?.abi || null)
+        }
+        request.onerror = () => reject(new Error('Failed to load ABI'))
+      })
+    } catch (error) {
+      console.error('Error loading ABI:', error)
+      return null
+    }
   }
 
   async getAllVerifiedContracts(): Promise<ABIData[]> {
-    const db = await this.getDb()
-    const transaction = db.transaction(STORES.ABIS, 'readonly')
-    const store = transaction.objectStore(STORES.ABIS)
-    const index = store.index('verified')
-    const request = index.getAll(true)
-
-    return new Promise((resolve, reject) => {
-      request.onsuccess = () => {
-        resolve(request.result as ABIData[])
+    try {
+      const db = await this.getDb()
+      
+      // Check if the store exists
+      if (!db.objectStoreNames.contains(STORES.ABIS)) {
+        console.log('ABIS store does not exist yet')
+        return []
       }
-      request.onerror = () => reject(new Error('Failed to load verified contracts'))
-    })
+      
+      const transaction = db.transaction(STORES.ABIS, 'readonly')
+      const store = transaction.objectStore(STORES.ABIS)
+      const index = store.index('verified')
+      const request = index.getAll(true)
+
+      return new Promise((resolve, reject) => {
+        request.onsuccess = () => {
+          resolve(request.result as ABIData[])
+        }
+        request.onerror = () => reject(new Error('Failed to load verified contracts'))
+      })
+    } catch (error) {
+      console.error('Error accessing verified contracts:', error)
+      return []
+    }
   }
 
   // Contract source code operations
